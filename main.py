@@ -10,7 +10,10 @@ def main():
         if "<think>" in response:
             bot_response = str(response).split("</think>")[1].strip()
             print("===\n\n",bot_response,"\n\n===\n\n")
-            speakback.speak(bot_response)
+        else:
+            bot_response = response
+            print("===\n\n",bot_response,"\n\n===\n\n")
+        speakback.speak(bot_response)
         main()
     except Exception as e:
         print(str("Exception: {}".format(e)))
