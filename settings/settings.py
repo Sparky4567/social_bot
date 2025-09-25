@@ -9,8 +9,8 @@ VOICE_MODEL_PATH = os.path.join(os.getcwd(), "amy", "en_US-amy-low.onnx")
 SPEAK_BACK = True
 
 # LOCAL_LLM
-LOCAL_LLM = "qwen3:0.6b"
-
+# LOCAL_LLM = "qwen3:0.6b"
+LOCAL_LLM = "llama3.2:latest"
 def special_directives_loader():
     SPECIAL_DIRECTIVES = f"""
     Mood System:

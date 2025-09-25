@@ -6,12 +6,9 @@ from random import randint
 class LLM_module:
     def __init__(self):
         self.llm = OllamaLLM(model=LOCAL_LLM)
-
     def mood_choose(self):
         rand=randint(1,100)
         return str(rand)
-
-
     # Define a function to format the prompt
     def format_prompt(self, passed_prompt):
         try:
@@ -22,10 +19,10 @@ class LLM_module:
             #print(DIRECTIVES)
             MOOD = self.mood_choose()
             #print(MOOD)
-            print("Loading directives...\n\n")
+            print("\n\nLoading directives...\n\n")
             MEMORIES = "No memories yet"
             #print(MEMORIES)
-            print("Memories have been loaded.\n\n")
+            print("\n\nMemories have been loaded.\n\n")
             new_prompt = PromptTemplate(
                     input_variables=["question"],
                     template="Those are your possible moods:{moods}.\n,You chose mood:{chosen_mood}.\nThose are your instructions:{directives} to follow while giving the answers.\nThe following The following is a record of past conversations:{memories}\nQ: {question}\n"
