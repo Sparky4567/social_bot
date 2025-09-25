@@ -21,7 +21,7 @@ A local social bot powered by your chosen LLM (Large Language Model). This proje
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/yourusername/social_bot.git
+    git clone https://github.com/Sparky4567/social_bot.git
     cd social_bot
     ```
     
