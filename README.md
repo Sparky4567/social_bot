@@ -2,6 +2,8 @@
 
 A local social bot powered by your chosen LLM (Large Language Model). This project enables you to run a conversational bot on your machine, ensuring privacy and control.
 
+(Ollama service should be running on your local machine, you can pick another ollama supported model in settings.py [llama, llama3.1 or llama3.2 - whatever you prefer - ollama pull model first])
+
 ## Features
 
 - Local inference with an LLM
