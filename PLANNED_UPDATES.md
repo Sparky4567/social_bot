@@ -7,4 +7,5 @@
 # PLANNED UPDATES
 
 - Memory storage/retrieval module
-- Speech to text support 
+- Speech to text support
+- Some sort of a GUI to actually to let you interact with the chatbot, remove/review/add memories
