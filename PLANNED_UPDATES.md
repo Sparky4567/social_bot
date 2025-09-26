@@ -13,4 +13,4 @@
 
 # RECENT CHANGES
 
-= Memory storage/retrieval module (Yes, the LLM is able to use and store memories within a local database)
+= Memory storage/retrieval module (Yes, the LLM is able to use and store memories by using a local database solution)
