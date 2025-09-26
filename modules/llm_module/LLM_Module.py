@@ -2,6 +2,7 @@ from langchain_ollama import OllamaLLM
 from langchain.prompts import PromptTemplate
 from settings.settings import (LOCAL_LLM, special_directives_loader, directives_loader, BOT_NAME)
 from random import randint
+from modules.memory_module.Memory_Module import MemoryDB
 
 class LLM_module:
     def __init__(self):
@@ -20,8 +21,13 @@ class LLM_module:
             MOOD = self.mood_choose()
             #print(MOOD)
             print("\n\nLoading directives...\n\n")
-            MEMORIES = "No memories yet"
-            #print(MEMORIES)
+            memory_db = MemoryDB()
+            memory_db._create_table()
+            MEMORIES = memory_db.fetch_all()
+            if not MEMORIES:
+                MEMORIES = "No memories found."
+            else:
+                MEMORIES = "\n".join([f"User: {mem[1]} | Bot: {mem[2]}" for mem in MEMORIES])
             print("\n\nMemories have been loaded.\n\n")
             new_prompt = PromptTemplate(
                     input_variables=["question"],
