@@ -10,3 +10,7 @@
 - Text to speech support - Solved / Marked as done
 - Speech to text support 
 - Some sort of a GUI to let you interact with the chatbot, remove/review/add memories  
+
+# RECENT CHANGES
+
+= Memory storage/retrieval module (Yes, the LLM is able to use and store memories within a local database)
