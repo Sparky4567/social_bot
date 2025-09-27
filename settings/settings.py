@@ -6,16 +6,22 @@ VOICE_MODEL_PATH = os.path.join(os.getcwd(), "amy", "en_US-amy-low.onnx")
 ### SETTINGS ###
 
 # DEFAULTS TO TRUE
+# SPEAK_BACK - If True, will use text-to-speech to speak responses back to the user.
+# If False, will print responses to the console.
 SPEAK_BACK = True
 
-# SPEECH_TO_TEXT
-SPEECH_TO_TEXT = True
+# SPEECH_TO_TEXT - Defaults to False
+#  If True, will use speech-to-text to transcribe user input from microphone.
+#  If False, will use text input from the console.
+SPEECH_TO_TEXT = False
 
 # LOCAL_LLM
 # LOCAL_LLM = "qwen3:0.6b"
-LOCAL_LLM = "llama3.2:latest"
+# Will use the specified local language model for processing.
+LOCAL_LLM = "qwen:4b"
 
 # LOADERS
+# Will load the directives and special directives for the AI assistant
 def special_directives_loader():
     SPECIAL_DIRECTIVES = f"""
     Mood System:
@@ -40,6 +46,7 @@ def special_directives_loader():
     SPECIAL_DIRECTIVES = str(SPECIAL_DIRECTIVES).strip()
     return SPECIAL_DIRECTIVES
 
+# Will load the directives for the AI assistant
 def directives_loader(BOT_NAME):
     directives =  f"""You are an AI assistant named {BOT_NAME}. 
     You are helpful, creative, clever, and very friendly. 
