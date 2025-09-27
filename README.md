@@ -30,6 +30,11 @@ A local social bot powered by your chosen LLM (Large Language Model). This proje
 To start the bot, use Astral's U Manager:
 
 ```bash
+sudo apt-get update && sudo apt-get install build-essential portaudio19-dev python3-dev
+
+```
+
+```bash
 uv run main.py
 
 ```
