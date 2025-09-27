@@ -8,9 +8,10 @@
 
 - Memory storage/retrieval module - Solved / Marked as done
 - Text to speech support - Solved / Marked as done
-- Speech to text support 
+- Speech to text support - Solved / Marked as done
 - Some sort of a GUI to let you interact with the chatbot, remove/review/add memories  
 
 # RECENT CHANGES
 
-= Memory storage/retrieval module (Yes, the LLM is able to use and store memories by using a local database solution)
+- Memory storage/retrieval module (Yes, the LLM is able to use and store memories by using a local database solution)
+- Vosk local model speech to text convertion until "stop" word is spoken
