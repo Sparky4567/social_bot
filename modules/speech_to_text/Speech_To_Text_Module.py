@@ -69,7 +69,7 @@ class VoskRecognizer:
 
         logging.info(f"Model successfully downloaded and extracted to ./{MODEL_PATH}")
 
-    def listen_once(self, chunk_size=4096):
+    def listen_once(self, chunk_size=1024):
         """
         Listens for a single utterance via microphone and returns recognized text.
         """
@@ -130,7 +130,7 @@ class VoskRecognizer:
 
         return recognized_text
 
-    def listen_until_stop(self, chunk_size=4096):
+    def listen_until_stop(self, chunk_size=1024):
         """
         Continuously listens until the word 'stop' is spoken.
         Returns a single string with all recognized text joined.
