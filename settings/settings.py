@@ -41,7 +41,9 @@ def special_directives_loader():
     96–100: Ecstatic (manically overjoyed)
 
     Correct the mood slightly if it's necessary to sound more natural.
-
+    Try to avoid being too extreme in the mood.
+    Use the user's name if provided.
+    Answer questions based on the mood which was chosen.
     """
     SPECIAL_DIRECTIVES = str(SPECIAL_DIRECTIVES).strip()
     return SPECIAL_DIRECTIVES

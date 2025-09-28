@@ -31,7 +31,7 @@ class LLM_module:
             print("\n\nMemories have been loaded.\n\n")
             new_prompt = PromptTemplate(
                     input_variables=["question"],
-                    template="Those are your possible moods:{moods}.\n,You chose mood:{chosen_mood}.\nThose are your instructions:{directives} to follow while giving the answers.\nThe following The following is a record of past conversations:{memories}\nQ: {question}\n"
+                    template="Those are your possible moods:{moods}.\n,A mood chosen for your answer is:{chosen_mood}.\nThose are your instructions:{directives} to follow while giving the answers.\nThe following The following is a record of past conversations:{memories}\nQ: {question}\n"
             )
             formatted_prompt = new_prompt.format(moods=SPECIAL_DIRECTIVES,chosen_mood=MOOD,directives=DIRECTIVES,memories=MEMORIES,question=passed_prompt)
             return formatted_prompt
