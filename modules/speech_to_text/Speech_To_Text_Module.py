@@ -99,14 +99,21 @@ class VoskRecognizer:
             logging.info("--- Listening for one utterance ---")
 
             while True:
-                data = stream.read(chunk_size, exception_on_overflow=False)
-                if len(data) == 0:
-                    break
+                try:
+                    data = stream.read(chunk_size, exception_on_overflow=False)
+                    if len(data) == 0:
+                        break
 
-                if self.recognizer.AcceptWaveform(data):
-                    result_json = json.loads(self.recognizer.Result())
-                    recognized_text = result_json.get("text", "")
-                    break  # stop after first full result
+                    if self.recognizer.AcceptWaveform(data):
+                        result_json = json.loads(self.recognizer.Result())
+                        recognized_text = result_json.get("text", "")
+                        break  # stop after first full result
+                except Exception as e:
+                    logging.error(f"Error during audio streaming: {e}")
+                    break
+                except KeyboardInterrupt:
+                    logging.info("User interrupted listening.")
+                    break
 
         except KeyboardInterrupt:
             logging.info("User interrupted listening.")
@@ -161,19 +168,26 @@ class VoskRecognizer:
             logging.info("\n\n--- Listening continuously (say 'stop' to quit) ---\n\n")
 
             while True:
-                data = stream.read(chunk_size, exception_on_overflow=False)
-                if len(data) == 0:
-                    break
+                try:
+                    data = stream.read(chunk_size, exception_on_overflow=False)
+                    if len(data) == 0:
+                        break
 
-                if self.recognizer.AcceptWaveform(data):
-                    result_json = json.loads(self.recognizer.Result())
-                    text = result_json.get("text", "")
-                    if text:
-                        print(f"Recognized: {text}")
-                        if "stop" in text.lower():
-                            logging.info("Stop command detected, exiting loop.")
-                            break
-                        transcript.append(text)
+                    if self.recognizer.AcceptWaveform(data):
+                        result_json = json.loads(self.recognizer.Result())
+                        text = result_json.get("text", "")
+                        if text:
+                            print(f"Recognized: {text}")
+                            if "stop" in text.lower():
+                                logging.info("Stop command detected, exiting loop.")
+                                break
+                            transcript.append(text)
+                except Exception as e:
+                    logging.error(f"Error during audio streaming: {e}")
+                    break
+                except KeyboardInterrupt:
+                    logging.info("User interrupted listening.")
+                    break    
 
         except KeyboardInterrupt:
             logging.info("User interrupted listening.")
