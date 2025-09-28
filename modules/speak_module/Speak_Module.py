@@ -22,6 +22,7 @@ class Speak_Module:
                 )
                 audio_bytes, _ = proc.communicate(input=text.encode("utf-8"))
                 audio_np = np.frombuffer(audio_bytes, dtype=np.int16).astype(np.float32) / 32768.0
+                #Use samplerate to regulate voice pitch
                 sd.play(audio_np, samplerate=18000)
                 sd.wait()
         except Exception as e:
