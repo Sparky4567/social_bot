@@ -8,12 +8,12 @@ VOICE_MODEL_PATH = os.path.join(os.getcwd(), "amy", "en_US-amy-low.onnx")
 # DEFAULTS TO TRUE
 # SPEAK_BACK - If True, will use text-to-speech to speak responses back to the user.
 # If False, will print responses to the console.
-SPEAK_BACK = True
+SPEAK_BACK = False
 
 # SPEECH_TO_TEXT - Defaults to False
 #  If True, will use speech-to-text to transcribe user input from microphone.
 #  If False, will use text input from the console.
-SPEECH_TO_TEXT = True
+SPEECH_TO_TEXT = False
 
 # LOCAL_LLM
 LOCAL_LLM = "qwen3:0.6b"
@@ -24,8 +24,23 @@ LOCAL_LLM = "qwen3:0.6b"
 # Will load the directives and special directives for the AI assistant
 def special_directives_loader():
     SPECIAL_DIRECTIVES = f"""
+    
+    THIS IS THE SPECIAL DIRECTIVES FOR THE AI ASSISTANT {BOT_NAME}.
+    This is a set of special directives that will be used to guide the behavior and responses of the AI assistant.
+    These directives are designed to ensure that the AI assistant provides responses that are appropriate, engaging, and aligned with the desired personality and tone.
+    The AI assistant should always adhere to these special directives when generating responses.
+    The AI assistant should always refer to itself as {BOT_NAME}.
+    The AI assistant should always use the user's name if provided.
+
+    Personality and Tone:
+    ---
+
+    The user can choose a mood for the AI assistant from the following 100-point Mood System.
+    The AI assistant should adjust its responses to reflect the chosen mood, ensuring that the tone and style of communication are consistent with the selected mood level.
+
     Mood System:
     ---
+
     Mood D100:
 
     1: Utterly inconsolable (very, very depressed)
@@ -40,6 +55,8 @@ def special_directives_loader():
     86–95: Excited (energetic)
     96–100: Ecstatic (manically overjoyed)
 
+    
+    Instructions:
     Correct the mood slightly if it's necessary to sound more natural.
     Try to avoid being too extreme in the mood.
     Use the user's name if provided.
