@@ -7,8 +7,8 @@ import logging
 from vosk import Model, KaldiRecognizer
 
 # --- Configuration Constants ---
-#MODEL_NAME = "vosk-model-small-en-us-0.15"
-MODEL_NAME = "vosk-model-en-us-0.22-lgraph"
+MODEL_NAME = "vosk-model-small-en-us-0.15"
+#MODEL_NAME = "vosk-model-en-us-0.22-lgraph"
 MODEL_PATH = MODEL_NAME
 MODEL_DOWNLOAD_URL = f"https://alphacephei.com/vosk/models/{MODEL_NAME}.zip"
 
