@@ -13,12 +13,12 @@ SPEAK_BACK = True
 # SPEECH_TO_TEXT - Defaults to False
 #  If True, will use speech-to-text to transcribe user input from microphone.
 #  If False, will use text input from the console.
-SPEECH_TO_TEXT = False
+SPEECH_TO_TEXT = True
 
 # LOCAL_LLM
-# LOCAL_LLM = "qwen3:0.6b"
+LOCAL_LLM = "qwen3:0.6b"
 # Will use the specified local language model for processing.
-LOCAL_LLM = "qwen:4b"
+# LOCAL_LLM = "qwen:4b"
 
 # LOADERS
 # Will load the directives and special directives for the AI assistant
