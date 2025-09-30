@@ -97,7 +97,7 @@ class VoskRecognizer:
             )
 
             logging.info("--- Listening for one utterance ---")
-
+            
             while True:
                 try:
                     data = stream.read(chunk_size, exception_on_overflow=False)
@@ -205,11 +205,4 @@ class VoskRecognizer:
         return final_text
 
 
-# --- Example Usage ---
-# if __name__ == "__main__":
-#     asr = VoskRecognizer()
 
-#     if asr.is_ready:
-#         final_text = asr.listen_until_stop()
-#         print("\nFinal recognized transcript:")
-#         print(final_text)

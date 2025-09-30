@@ -3,6 +3,7 @@ from modules.llm_module.LLM_Module import LLM_module
 from modules.memory_module.Memory_Module import MemoryDB
 from modules.speech_to_text.Speech_To_Text_Module import VoskRecognizer
 from settings.settings import SPEECH_TO_TEXT
+
 def main():
     speakback = Speak_Module()
     llm = LLM_module()

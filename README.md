@@ -34,8 +34,16 @@ sudo apt-get update && sudo apt-get install build-essential portaudio19-dev pyth
 
 ```
 
+### No GUI mode
+
 ```bash
 uv run main.py
+
+```
+### GUI mode (Streamlit)
+
+```bash
+uv run streamlit run gui.py
 
 ```
 
