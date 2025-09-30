@@ -40,7 +40,7 @@ sudo apt-get update && sudo apt-get install build-essential portaudio19-dev pyth
 uv run main.py
 
 ```
-### GUI mode (Streamlit)
+### GUI mode (Streamlit) - Background tasks still logged into terminal
 
 ```bash
 uv run streamlit run gui.py
