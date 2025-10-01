@@ -2,12 +2,15 @@ from modules.speak_module.Speak_Module import Speak_Module
 from modules.llm_module.LLM_Module import LLM_module
 from modules.memory_module.Memory_Module import MemoryDB
 from modules.speech_to_text.Speech_To_Text_Module import VoskRecognizer
+from modules.agentic_module.Agentic_Module import Agentic_Module
 from settings.settings import SPEECH_TO_TEXT
+from settings.settings import AGENTIC
 
 def main():
     speakback = Speak_Module()
     llm = LLM_module()
     memory = MemoryDB()
+    agentic = Agentic_Module()
     try:
         if SPEECH_TO_TEXT:
             asr = VoskRecognizer()
@@ -23,7 +26,14 @@ def main():
                 quit()
             case _:
                 print("Processing your input...")
-                response = llm.get_response_from_llm(user_input)
+                if AGENTIC:
+                    response = agentic.select_tool(str(user_input).lower())
+                    if (response[0] is True and response[1] is not None):
+                        response = response[1]
+                    elif (response[0] is False and response[1] is None):
+                        response = llm.get_response_from_llm(user_input)
+                else:
+                    response = llm.get_response_from_llm(user_input)
                 memory._create_table()
                 bot_response = "No response"
                 if "<think>" in response:

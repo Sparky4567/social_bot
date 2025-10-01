@@ -8,7 +8,7 @@ VOICE_MODEL_PATH = os.path.join(os.getcwd(), "amy", "en_US-amy-low.onnx")
 # DEFAULTS TO TRUE
 # SPEAK_BACK - If True, will use text-to-speech to speak responses back to the user.
 # If False, will print responses to the console.
-SPEAK_BACK = False
+SPEAK_BACK = True
 
 # SPEECH_TO_TEXT - Defaults to False
 #  If True, will use speech-to-text to transcribe user input from microphone.
@@ -19,6 +19,13 @@ SPEECH_TO_TEXT = False
 LOCAL_LLM = "qwen3:0.6b"
 # Will use the specified local language model for processing.
 # LOCAL_LLM = "qwen:4b"
+
+# AGENTIC MODULE
+# Agentic module - enabled by default
+# Helps you to include your own desired functionality into bot
+# For example, opening webbrowser tabs, etc.
+# Each extra function should be defined within Agentic_Module.py
+AGENTIC = True
 
 # LOADERS
 # Will load the directives and special directives for the AI assistant
