@@ -30,7 +30,7 @@ class MemoryDB:
 
     def fetch_all(self):
         with self._connect() as conn:
-            cursor = conn.execute("SELECT id, user_input, bot_answer FROM memories LIMIT 100")
+            cursor = conn.execute("SELECT id, user_input, bot_answer FROM memories")
             rows = cursor.fetchall()
             return [
                 f"[{row[0]}] User: {row[1]} | Bot: {row[2]}"
