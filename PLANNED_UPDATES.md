@@ -9,7 +9,8 @@
 - Memory storage/retrieval module - Solved / Marked as done
 - Text to speech support - Solved / Marked as done
 - Speech to text support - Solved / Marked as done
-- Some sort of a GUI to let you interact with the chatbot, remove/review/add memories  
+- Agentic module - Solved / Marked as done (you can code your own desired behavior based on static commands "open browser, etc.")
+- Some sort of a GUI to let you interact with the chatbot, remove/review/add memories - Planning stage
 
 # RECENT CHANGES
 

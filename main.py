@@ -25,7 +25,7 @@ def main():
                 print("Quiting...")
                 quit()
             case _:
-                print("Processing your input...")
+                print("\nProcessing your input...\n")
                 if AGENTIC:
                     response = agentic.select_tool(str(user_input).lower())
                     if (response[0] is True and response[1] is not None):
