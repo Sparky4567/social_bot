@@ -3,6 +3,7 @@ from modules.llm_module.LLM_Module import LLM_module
 from modules.memory_module.Memory_Module import MemoryDB
 from modules.speech_to_text.Speech_To_Text_Module import VoskRecognizer
 from modules.agentic_module.Agentic_Module import Agentic_Module
+from modules.logo_module.Logo_Module import Logo_Module
 from settings.settings import SPEECH_TO_TEXT
 from settings.settings import AGENTIC
 
@@ -11,7 +12,9 @@ def main():
     llm = LLM_module()
     memory = MemoryDB()
     agentic = Agentic_Module()
+    logo = Logo_Module()
     try:
+        logo.print_logo()
         if SPEECH_TO_TEXT:
             asr = VoskRecognizer()
             if asr.is_ready:
