@@ -15,6 +15,7 @@ def main():
     logo = Logo_Module()
     try:
         logo.print_logo()
+        logo.print_slogan()
         if SPEECH_TO_TEXT:
             asr = VoskRecognizer()
             if asr.is_ready:

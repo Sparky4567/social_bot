@@ -1,6 +1,7 @@
 import os
 
-BOT_NAME = "ALIS"
+BOT_NAME = "ALIS v.1.0"
+SLOGAN = "Your Personal AI Assistant"
 VOICE_MODEL_PATH = os.path.join(os.getcwd(), "amy", "en_US-amy-low.onnx")
 
 ### SETTINGS ###
