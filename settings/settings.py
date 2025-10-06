@@ -18,6 +18,7 @@ SPEECH_TO_TEXT = False
 
 # LOCAL_LLM
 LOCAL_LLM = "qwen3:0.6b"
+# LOCAL_LLM = "gpt-oss:20b-cloud"
 # Will use the specified local language model for processing.
 # LOCAL_LLM = "qwen:4b"
 
