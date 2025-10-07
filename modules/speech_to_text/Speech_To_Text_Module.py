@@ -265,7 +265,7 @@ class VoskRecognizer:
                     rms = float(np.sqrt(mean_square)) if mean_square > 0 else 0.0
 
                     # Debug: monitor RMS levels (comment out after tuning)
-                    print(f"RMS: {rms:.2f}")
+                    # print(f"RMS: {rms:.2f}")
 
                     # Silence check
                     if rms < silence_threshold:
