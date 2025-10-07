@@ -204,5 +204,94 @@ class VoskRecognizer:
         logging.info(f"Final transcript: {final_text}")
         return final_text
 
+    def continuous_listening(self, chunk_size=1024):
+        """
+        Continuously listens until silence is detected.
+        Returns a single string with all recognized text joined.
+        """
+        if not self.is_ready:
+            logging.error("Recognizer not ready.")
+            return ""
+
+        try:
+            import pyaudio, audioop, json, time
+        except ImportError:
+            logging.error("Required modules missing. Run: pip install pyaudio")
+            return ""
+
+        p = pyaudio.PyAudio()
+        stream = None
+        transcript = []
+
+        # Silence detection parameters
+        silence_threshold = 500   # lower = more sensitive
+        silence_duration = 20.0    # seconds of silence before stopping
+        silence_start = None
+        speech_detected = False
+
+        try:
+            stream = p.open(
+                format=pyaudio.paInt16,
+                channels=1,
+                rate=self.sample_rate,
+                input=True,
+                frames_per_buffer=chunk_size,
+            )
+
+            logging.info("\n\n--- Listening continuously (auto-stops on silence) ---\n\n")
+
+            while True:
+                try:
+                    data = stream.read(chunk_size, exception_on_overflow=False)
+                    if len(data) == 0:
+                        break
+
+                    # Silence check
+                    rms = audioop.rms(data, 2)
+                    if rms < silence_threshold:
+                        if silence_start is None:
+                            silence_start = time.time()
+                        elif time.time() - silence_start > silence_duration:
+                            logging.info("Silence threshold reached, stopping listening.")
+                            break
+                    else:
+                        silence_start = None
+
+                    # Recognition
+                    if self.recognizer.AcceptWaveform(data):
+                        result_json = json.loads(self.recognizer.Result())
+                        text = result_json.get("text", "")
+                        if text:
+                            print(f"Recognized: {text}")
+                            transcript.append(text)
+                            speech_detected = True
+
+                except KeyboardInterrupt:
+                    logging.info("User interrupted listening.")
+                    break
+                except Exception as e:
+                    logging.error(f"Error during audio streaming: {e}")
+                    break
+
+        except KeyboardInterrupt:
+            logging.info("User interrupted listening.")
+        except Exception as e:
+            logging.error(f"Error initializing audio stream: {e}")
+        finally:
+            if stream:
+                stream.stop_stream()
+                stream.close()
+            p.terminate()
+            logging.info("--- Listening stopped ---")
+
+        final_text = " ".join(transcript).strip()
+
+        # Fallback when nothing said
+        if not speech_detected or not final_text:
+            final_text = "User said nothing."
+
+        logging.info(f"Final transcript: {final_text}")
+        return final_text
+
 
 

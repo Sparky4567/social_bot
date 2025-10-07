@@ -5,6 +5,7 @@ from modules.speech_to_text.Speech_To_Text_Module import VoskRecognizer
 from modules.agentic_module.Agentic_Module import Agentic_Module
 from modules.logo_module.Logo_Module import Logo_Module
 from settings.settings import SPEECH_TO_TEXT
+from settings.settings import CONTINUOUS_LISTENING
 from settings.settings import AGENTIC
 
 def main():
@@ -20,7 +21,10 @@ def main():
             asr = VoskRecognizer()
             if asr.is_ready:
                 print("\n\nListening for your input...\n\n")
-                user_input = asr.listen_until_stop().strip()
+                if CONTINUOUS_LISTENING:
+                    user_input = asr.continuous_listening().strip()
+                else:
+                    user_input = asr.listen_until_stop().strip()
                 print("You said: {}".format(user_input))
         else:
             user_input = str(input("\n\nYour input:\n\n")).strip()
