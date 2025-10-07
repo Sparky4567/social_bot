@@ -206,7 +206,7 @@ class VoskRecognizer:
 
     def continuous_listening(self, chunk_size=1024):
         """
-        Continuously listens until silence is detected.
+        Continuously listens until silence is detected or max duration exceeded.
         Returns a single string with all recognized text joined.
         """
         if not self.is_ready:
@@ -214,9 +214,9 @@ class VoskRecognizer:
             return ""
 
         try:
-            import pyaudio, audioop, json, time
+            import pyaudio, numpy as np, json, time
         except ImportError:
-            logging.error("Required modules missing. Run: pip install pyaudio")
+            logging.error("Required modules missing. Run: pip install pyaudio numpy")
             return ""
 
         p = pyaudio.PyAudio()
@@ -224,10 +224,12 @@ class VoskRecognizer:
         transcript = []
 
         # Silence detection parameters
-        silence_threshold = 500   # lower = more sensitive
-        silence_duration = 20.0    # seconds of silence before stopping
+        silence_threshold = 50      # adjust per environment
+        silence_duration = 10.0      # seconds of quiet before stop
+        max_duration = 20.0         # safety limit in seconds
         silence_start = None
         speech_detected = False
+        start_time = time.time()
 
         try:
             stream = p.open(
@@ -241,13 +243,31 @@ class VoskRecognizer:
             logging.info("\n\n--- Listening continuously (auto-stops on silence) ---\n\n")
 
             while True:
+                # Stop if max duration reached
+                if time.time() - start_time > max_duration:
+                    logging.info("Max listening time reached, stopping.")
+                    break
+
                 try:
                     data = stream.read(chunk_size, exception_on_overflow=False)
                     if len(data) == 0:
-                        break
+                        continue
+
+                    # Compute RMS safely
+                    audio_data = np.frombuffer(data, dtype=np.int16)
+                    if audio_data.size == 0:
+                        continue
+
+                    float_data = audio_data.astype(np.float64)
+                    float_data = np.clip(float_data, -32768, 32767)
+
+                    mean_square = np.mean(np.square(float_data)) if float_data.size else 0.0
+                    rms = float(np.sqrt(mean_square)) if mean_square > 0 else 0.0
+
+                    # Debug: monitor RMS levels (comment out after tuning)
+                    print(f"RMS: {rms:.2f}")
 
                     # Silence check
-                    rms = audioop.rms(data, 2)
                     if rms < silence_threshold:
                         if silence_start is None:
                             silence_start = time.time()
@@ -273,8 +293,6 @@ class VoskRecognizer:
                     logging.error(f"Error during audio streaming: {e}")
                     break
 
-        except KeyboardInterrupt:
-            logging.info("User interrupted listening.")
         except Exception as e:
             logging.error(f"Error initializing audio stream: {e}")
         finally:

@@ -14,7 +14,7 @@ SPEAK_BACK = True
 # SPEECH_TO_TEXT - Defaults to False
 #  If True, will use speech-to-text to transcribe user input from microphone.
 #  If False, will use text input from the console.
-SPEECH_TO_TEXT = False
+SPEECH_TO_TEXT = True
 CONTINUOUS_LISTENING = False
 # LOCAL_LLM
 LOCAL_LLM = "qwen3:0.6b"
