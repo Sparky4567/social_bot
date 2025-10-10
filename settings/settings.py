@@ -15,7 +15,7 @@ SPEAK_BACK = True
 #  If True, will use speech-to-text to transcribe user input from microphone.
 #  If False, will use text input from the console.
 SPEECH_TO_TEXT = True
-CONTINUOUS_LISTENING = False
+CONTINUOUS_LISTENING = True
 # LOCAL_LLM
 LOCAL_LLM = "qwen3:0.6b"
 # LOCAL_LLM = "gpt-oss:20b-cloud"

@@ -13,7 +13,7 @@ MODEL_PATH = MODEL_NAME
 MODEL_DOWNLOAD_URL = f"https://alphacephei.com/vosk/models/{MODEL_NAME}.zip"
 
 # Set up basic logging
-logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+# logging.basicConfig(level=print, format="%(levelname)s: %(message)s")
 
 
 class VoskRecognizer:
@@ -27,23 +27,23 @@ class VoskRecognizer:
         self.recognizer = None
         self.is_ready = False
 
-        logging.info(f"Checking for model directory: {MODEL_PATH}...")
+        print(f"Checking for model directory: {MODEL_PATH}...")
 
         if not self.model_exists():
             logging.warning("Model not found. Initiating automatic download.")
             try:
                 self._download_and_extract_model()
             except Exception as e:
-                logging.error(f"Failed during model download/extraction: {e}")
+                print(f"Failed during model download/extraction: {e}")
                 raise RuntimeError("Recognizer initialization failed") from e
 
         try:
             model = Model(MODEL_PATH)
             self.recognizer = KaldiRecognizer(model, self.sample_rate)
             self.is_ready = True
-            logging.info("Vosk Recognizer successfully initialized and ready.")
+            print("Vosk Recognizer successfully initialized and ready.")
         except Exception as e:
-            logging.error(f"Failed to load Vosk model: {e}")
+            print(f"Failed to load Vosk model: {e}")
             raise RuntimeError("Recognizer initialization failed") from e
 
     def model_exists(self):
@@ -56,7 +56,7 @@ class VoskRecognizer:
         """
         Downloads the Vosk model ZIP and extracts it into the correct folder.
         """
-        logging.info(f"Downloading model from: {MODEL_DOWNLOAD_URL}")
+        print(f"Downloading model from: {MODEL_DOWNLOAD_URL}")
         response = requests.get(MODEL_DOWNLOAD_URL, stream=True)
         response.raise_for_status()
 
@@ -67,20 +67,20 @@ class VoskRecognizer:
         if extracted_dir != MODEL_PATH and os.path.exists(extracted_dir):
             os.rename(extracted_dir, MODEL_PATH)
 
-        logging.info(f"Model successfully downloaded and extracted to ./{MODEL_PATH}")
+        print(f"Model successfully downloaded and extracted to ./{MODEL_PATH}")
 
     def listen_once(self, chunk_size=1024):
         """
         Listens for a single utterance via microphone and returns recognized text.
         """
         if not self.is_ready:
-            logging.error("Recognizer not ready.")
+            print("Recognizer not ready.")
             return ""
 
         try:
             import pyaudio
         except ImportError:
-            logging.error("PyAudio not installed. Run: pip install pyaudio")
+            print("PyAudio not installed. Run: pip install pyaudio")
             return ""
 
         p = pyaudio.PyAudio()
@@ -96,7 +96,7 @@ class VoskRecognizer:
                 frames_per_buffer=chunk_size,
             )
 
-            logging.info("--- Listening for one utterance ---")
+            print("--- Listening for one utterance ---")
             
             while True:
                 try:
@@ -109,16 +109,16 @@ class VoskRecognizer:
                         recognized_text = result_json.get("text", "")
                         break  # stop after first full result
                 except Exception as e:
-                    logging.error(f"Error during audio streaming: {e}")
+                    print(f"Error during audio streaming: {e}")
                     break
                 except KeyboardInterrupt:
-                    logging.info("User interrupted listening.")
+                    print("User interrupted listening.")
                     break
 
         except KeyboardInterrupt:
-            logging.info("User interrupted listening.")
+            print("User interrupted listening.")
         except Exception as e:
-            logging.error(f"Error during audio streaming: {e}")
+            print(f"Error during audio streaming: {e}")
         finally:
             if stream:
                 stream.stop_stream()
@@ -132,8 +132,8 @@ class VoskRecognizer:
                 except Exception:
                     pass
 
-            logging.info(f"Recognized text: {recognized_text}")
-            logging.info("--- Listening stopped ---")
+            print(f"Recognized text: {recognized_text}")
+            print("--- Listening stopped ---")
 
         return recognized_text
 
@@ -143,13 +143,13 @@ class VoskRecognizer:
         Returns a single string with all recognized text joined.
         """
         if not self.is_ready:
-            logging.error("Recognizer not ready.")
+            print("Recognizer not ready.")
             return ""
 
         try:
             import pyaudio
         except ImportError:
-            logging.error("PyAudio not installed. Run: pip install pyaudio")
+            print("PyAudio not installed. Run: pip install pyaudio")
             return ""
 
         p = pyaudio.PyAudio()
@@ -165,7 +165,7 @@ class VoskRecognizer:
                 frames_per_buffer=chunk_size,
             )
 
-            logging.info("\n\n--- Listening continuously (say 'stop' to quit) ---\n\n")
+            print("\n\n--- Listening continuously (say 'stop' to quit) ---\n\n")
 
             while True:
                 try:
@@ -179,29 +179,29 @@ class VoskRecognizer:
                         if text:
                             print(f"Recognized: {text}")
                             if "stop" in text.lower():
-                                logging.info("Stop command detected, exiting loop.")
+                                print("Stop command detected, exiting loop.")
                                 break
                             transcript.append(text)
                 except Exception as e:
-                    logging.error(f"Error during audio streaming: {e}")
+                    print(f"Error during audio streaming: {e}")
                     break
                 except KeyboardInterrupt:
-                    logging.info("User interrupted listening.")
+                    print("User interrupted listening.")
                     break    
 
         except KeyboardInterrupt:
-            logging.info("User interrupted listening.")
+            print("User interrupted listening.")
         except Exception as e:
-            logging.error(f"Error during audio streaming: {e}")
+            print(f"Error during audio streaming: {e}")
         finally:
             if stream:
                 stream.stop_stream()
                 stream.close()
             p.terminate()
-            logging.info("--- Listening stopped ---")
+            print("--- Listening stopped ---")
 
         final_text = " ".join(transcript).strip()
-        logging.info(f"Final transcript: {final_text}")
+        print(f"Final transcript: {final_text}")
         return final_text
 
     def continuous_listening(self, chunk_size=1024):
@@ -210,13 +210,13 @@ class VoskRecognizer:
         Returns a single string with all recognized text joined.
         """
         if not self.is_ready:
-            logging.error("Recognizer not ready.")
+            print("Recognizer not ready.")
             return ""
 
         try:
             import pyaudio, numpy as np, json, time
         except ImportError:
-            logging.error("Required modules missing. Run: pip install pyaudio numpy")
+            print("Required modules missing. Run: pip install pyaudio numpy")
             return ""
 
         p = pyaudio.PyAudio()
@@ -240,12 +240,12 @@ class VoskRecognizer:
                 frames_per_buffer=chunk_size,
             )
 
-            logging.info("\n\n--- Listening continuously (auto-stops on silence) ---\n\n")
+            print("\n\n--- Listening continuously (auto-stops on silence) ---\n\n")
 
             while True:
                 # Stop if max duration reached
                 if time.time() - start_time > max_duration:
-                    logging.info("Max listening time reached, stopping.")
+                    print("Max listening time reached, stopping.")
                     break
 
                 try:
@@ -272,7 +272,7 @@ class VoskRecognizer:
                         if silence_start is None:
                             silence_start = time.time()
                         elif time.time() - silence_start > silence_duration:
-                            logging.info("Silence threshold reached, stopping listening.")
+                            print("Silence threshold reached, stopping listening.")
                             break
                     else:
                         silence_start = None
@@ -287,20 +287,20 @@ class VoskRecognizer:
                             speech_detected = True
 
                 except KeyboardInterrupt:
-                    logging.info("User interrupted listening.")
+                    print("User interrupted listening.")
                     break
                 except Exception as e:
-                    logging.error(f"Error during audio streaming: {e}")
+                    print(f"Error during audio streaming: {e}")
                     break
 
         except Exception as e:
-            logging.error(f"Error initializing audio stream: {e}")
+            print(f"Error initializing audio stream: {e}")
         finally:
             if stream:
                 stream.stop_stream()
                 stream.close()
             p.terminate()
-            logging.info("--- Listening stopped ---")
+            print("--- Listening stopped ---")
 
         final_text = " ".join(transcript).strip()
 
@@ -308,7 +308,7 @@ class VoskRecognizer:
         if not speech_detected or not final_text:
             final_text = "User said nothing."
 
-        logging.info(f"Final transcript: {final_text}")
+        print(f"Final transcript: {final_text}")
         return final_text
 
 
