@@ -21,6 +21,7 @@ USE_MEMORIES = True
 #  If False, will use text input from the console.
 SPEECH_TO_TEXT = False
 CONTINUOUS_LISTENING = False
+
 # LOCAL_LLM
 LOCAL_LLM = "gemma3:270m"
 # LOCAL_LLM = "smollm2:135m"
@@ -70,7 +71,6 @@ def special_directives_loader():
     76–85: Enthusiastic (positively joyful)
     86–95: Excited (energetic)
     96–100: Ecstatic (manically overjoyed)
-
 
     Instructions:
     Correct the mood slightly if it's necessary to sound more natural.
