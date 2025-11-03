@@ -3,6 +3,7 @@ from langchain.prompts import PromptTemplate
 from settings.settings import (LOCAL_LLM, special_directives_loader, directives_loader, BOT_NAME)
 from random import randint
 from modules.memory_module.Memory_Module import MemoryDB
+from settings.settings import USE_MEMORIES
 
 class LLM_module:
     def __init__(self):
@@ -21,20 +22,30 @@ class LLM_module:
             MOOD = self.mood_choose()
             #print(MOOD)
             print("\n\nLoading directives...\n\n")
-            memory_db = MemoryDB()
-            memory_db._create_table()
-            MEMORIES = memory_db.fetch_all()
-            if not MEMORIES:
-                MEMORIES = "No memories found."
+            if USE_MEMORIES:
+                print("\n\nUsing memories...\n\n")
+                memory_db = MemoryDB()
+                memory_db._create_table()
+                MEMORIES = memory_db.fetch_all()
+                if not MEMORIES:
+                    MEMORIES = "No memories found."
+                else:
+                    MEMORIES = "\n".join([f"User: {mem[1]} | Bot: {mem[2]}" for mem in MEMORIES])
+                print("\n\nMemories have been loaded.\n\n")
+                new_prompt = PromptTemplate(
+                        input_variables=["question"],
+                        template="Those are your possible moods:{moods}.\n,A mood chosen for your answer is:{chosen_mood}.\nThose are your instructions:{directives} to follow while giving the answers.\nThe following The following is a record of past conversations:{memories}\nQ: {question}\n"
+                )
+                formatted_prompt = new_prompt.format(moods=SPECIAL_DIRECTIVES,chosen_mood=MOOD,directives=DIRECTIVES,memories=MEMORIES,question=passed_prompt)
+                return formatted_prompt
             else:
-                MEMORIES = "\n".join([f"User: {mem[1]} | Bot: {mem[2]}" for mem in MEMORIES])
-            print("\n\nMemories have been loaded.\n\n")
-            new_prompt = PromptTemplate(
-                    input_variables=["question"],
-                    template="Those are your possible moods:{moods}.\n,A mood chosen for your answer is:{chosen_mood}.\nThose are your instructions:{directives} to follow while giving the answers.\nThe following The following is a record of past conversations:{memories}\nQ: {question}\n"
-            )
-            formatted_prompt = new_prompt.format(moods=SPECIAL_DIRECTIVES,chosen_mood=MOOD,directives=DIRECTIVES,memories=MEMORIES,question=passed_prompt)
-            return formatted_prompt
+                print("\n\nMemory usage is disabled...\n\n")
+                new_prompt = PromptTemplate(
+                        input_variables=["question"],
+                        template="Those are your possible moods:{moods}.\n,A mood chosen for your answer is:{chosen_mood}.\nThose are your instructions:{directives} to follow while giving the answers.\nQ: {question}\n"
+                )
+                formatted_prompt = new_prompt.format(moods=SPECIAL_DIRECTIVES,chosen_mood=MOOD,directives=DIRECTIVES,question=passed_prompt)
+                return formatted_prompt
         except Exception as e:
             print(f"Error formatting prompt: {e}")
             return None
@@ -55,5 +66,3 @@ class LLM_module:
         except Exception as e:
             print(f"LLM Error: {e}")
             self.get_response_from_llm(passed_prompt)
-
-    

@@ -11,13 +11,19 @@ VOICE_MODEL_PATH = os.path.join(os.getcwd(), "amy", "en_US-amy-low.onnx")
 # If False, will print responses to the console.
 SPEAK_BACK = True
 
+# MEMORIES
+# Whether to use memories or not
+# Default is True
+USE_MEMORIES = True
+
 # SPEECH_TO_TEXT - Defaults to False
 #  If True, will use speech-to-text to transcribe user input from microphone.
 #  If False, will use text input from the console.
 SPEECH_TO_TEXT = False
 CONTINUOUS_LISTENING = False
 # LOCAL_LLM
-LOCAL_LLM = "smollm2:135m"
+LOCAL_LLM = "gemma3:270m"
+# LOCAL_LLM = "smollm2:135m"
 # LOCAL_LLM = "qwen3:0.6b"
 # LOCAL_LLM = "gpt-oss:20b-cloud"
 # Will use the specified local language model for processing.
@@ -34,7 +40,7 @@ AGENTIC = True
 # Will load the directives and special directives for the AI assistant
 def special_directives_loader():
     SPECIAL_DIRECTIVES = f"""
-    
+
     THIS IS THE SPECIAL DIRECTIVES FOR THE AI ASSISTANT {BOT_NAME}.
     This is a set of special directives that will be used to guide the behavior and responses of the AI assistant.
     These directives are designed to ensure that the AI assistant provides responses that are appropriate, engaging, and aligned with the desired personality and tone.
@@ -65,7 +71,7 @@ def special_directives_loader():
     86–95: Excited (energetic)
     96–100: Ecstatic (manically overjoyed)
 
-    
+
     Instructions:
     Correct the mood slightly if it's necessary to sound more natural.
     Try to avoid being too extreme in the mood.
@@ -77,10 +83,10 @@ def special_directives_loader():
 
 # Will load the directives for the AI assistant
 def directives_loader(BOT_NAME):
-    directives =  f"""You are an AI assistant named {BOT_NAME}. 
-    You are helpful, creative, clever, and very friendly. 
-    Always answer as helpfully as possible, while being safe. 
-    Your answers should be in markdown format. 
+    directives =  f"""You are an AI assistant named {BOT_NAME}.
+    You are helpful, creative, clever, and very friendly.
+    Always answer as helpfully as possible, while being safe.
+    Your answers should be in markdown format.
     If the question is not related to you, politely inform them that you are an AI assistant and are unable to assist with that request.
     If the question is related to you, answer in a concise and clear manner.
     Never mention that you are an AI model.
