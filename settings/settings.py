@@ -23,12 +23,12 @@ SPEECH_TO_TEXT = False
 CONTINUOUS_LISTENING = False
 
 # LOCAL_LLM
-LOCAL_LLM = "gemma3:270m"
+# LOCAL_LLM = "gemma3:270m"
 # LOCAL_LLM = "smollm2:135m"
 # LOCAL_LLM = "qwen3:0.6b"
 # LOCAL_LLM = "gpt-oss:20b-cloud"
 # Will use the specified local language model for processing.
-# LOCAL_LLM = "qwen:4b"
+LOCAL_LLM = "qwen:4b"
 
 # AGENTIC MODULE
 # Agentic module - enabled by default

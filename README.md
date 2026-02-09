@@ -23,7 +23,7 @@ A local social bot powered by your chosen LLM (Large Language Model). This proje
     ```bash
     git clone https://github.com/Sparky4567/social_bot.git
     cd social_bot
-    ollama pull smollm2:135m
+    ollama pull gemma3:270m
     ```
 
 2. curl -LsSf https://astral.sh/uv/install.sh | sh
